@@ -1,0 +1,65 @@
+.flex-row {
+  display: flex;
+}
+
+/* 水平居中 */
+.flex-cx {
+  display: flex;
+  justify-content: center;
+}
+
+/* 垂直居中 */
+.flex-cy {
+  display: flex;
+  align-items: center;
+}
+
+/* 水平垂直居中 */
+.flex-center-xy {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 水平分布 */
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* 垂直分布 */
+.flex-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.flex-column-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-end {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.flex-start {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.flex-end-y {
+  display: flex;
+  align-items: flex-end;
+}
+
+.flex-start-y {
+  display: flex;
+  align-items: flex-start;
+}
+
+.color-baf {
+  background-color: #226baf;
+}
