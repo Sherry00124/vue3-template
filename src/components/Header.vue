@@ -1,68 +1,31 @@
 <template>
-  <div>
-    1223
-    <!-- <a-menu v-model:selectedKeys="current" mode="horizontal" :items="items" /> -->
+  <div class="flex-center-xy header">
+    <div class="flex-row">
+      <MenuUnfoldOutlined />
+      <MenuFoldOutlined />
+    </div>
+    <div class="flex-row">
+      <!-- {{ username }} -->
+      <smile-outlined />
+      <span>{{ username }}</span>
+    </div>
   </div>
 </template>
 <script lang="ts" setup>
-import { h, ref } from "vue";
-import { MailOutlined, AppstoreOutlined, SettingOutlined } from "@ant-design/icons-vue";
-import { MenuProps } from "ant-design-vue";
+import { getUserInfo } from "@/utils/auth";
+import { SmileOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons-vue";
+import { computed } from "vue";
 
-const current = ref<string[]>(["mail"]);
-const items = ref<MenuProps["items"]>([
-  {
-    key: "mail",
-    icon: () => h(MailOutlined),
-    label: "Navigation One",
-    title: "Navigation One",
-  },
-  {
-    key: "app",
-    icon: () => h(AppstoreOutlined),
-    label: "Navigation Two",
-    title: "Navigation Two",
-  },
-  {
-    key: "sub1",
-    icon: () => h(SettingOutlined),
-    label: "Navigation Three - Submenu",
-    title: "Navigation Three - Submenu",
-    children: [
-      {
-        type: "group",
-        label: "Item 1",
-        children: [
-          {
-            label: "Option 1",
-            key: "setting:1",
-          },
-          {
-            label: "Option 2",
-            key: "setting:2",
-          },
-        ],
-      },
-      {
-        type: "group",
-        label: "Item 2",
-        children: [
-          {
-            label: "Option 3",
-            key: "setting:3",
-          },
-          {
-            label: "Option 4",
-            key: "setting:4",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    key: "alipay",
-    label: h("a", { href: "https://antdv.com", target: "_blank" }, "Navigation Four - Link"),
-    title: "Navigation Four - Link",
-  },
-]);
+const username = computed(() => {
+  const userInfo = getUserInfo();
+  return userInfo ? userInfo.mobile : ""; // 使用条件运算符处理可能为 null 的情况
+});
 </script>
+<style lang="scss" scoped>
+.header {
+  width: 100%;
+  height: 100%;
+  text-align: right;
+  justify-content: space-between;
+}
+</style>

@@ -13,10 +13,16 @@ export function removeToken() {
 }
 
 const UserInfo = "userInfo";
-
-export function getUserInfo(): string | null {
-  const userInfo = sessionStorage.getItem(UserInfo);
-  return userInfo ?? null; // 使用空值合并操作符，确保返回值不为 null
+interface userInfo {
+  effectiveAmount: string;
+  institution: string;
+  merchantId: string;
+  mobile: string;
+  status: string;
+  topUpAddress: string;
+}
+export function getUserInfo(): userInfo | null {
+  return JSON.parse(sessionStorage.getItem(UserInfo) as string) as userInfo | null; // 使用空值合并操作符，确保返回值不为 null
 }
 
 export function setUserInfo(userInfo: any) {

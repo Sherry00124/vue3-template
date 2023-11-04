@@ -12,11 +12,11 @@
         @finishFailed="onFinishFailed"
       >
         <a-form-item
-          :label="$t('login.username')"
-          name="username"
-          :rules="[{ required: true, message: 'Please input your username!' }]"
+          :label="$t('login.mobile')"
+          name="mobile"
+          :rules="[{ required: true, message: 'Please input your mobile!' }]"
         >
-          <a-input v-model:value="formState.username" />
+          <a-input v-model:value="formState.mobile" />
         </a-form-item>
 
         <a-form-item
@@ -27,16 +27,25 @@
           <a-input-password v-model:value="formState.password" />
         </a-form-item>
         <a-form-item
-          :label="$t('login.verification')"
-          name="verification"
-          :rules="[{ required: true, message: 'Please input your verification!' }]"
+          :label="$t('login.captcha')"
+          name="captcha"
+          :rules="[{ required: true, message: 'Please input your captcha!' }]"
         >
-          <a-input v-model:value="formState.verification">
-            <template #suffix> 123 </template>
+          <a-input v-model:value="formState.captcha">
+            <template #suffix>
+              <a-image
+                :height="30"
+                :preview="false"
+                :src="verificationImg ? verificationImg : 'https://img.yzcdn.cn/vant/cat.jpeg'"
+                @click="getVerficationCode"
+              />
+            </template>
           </a-input>
         </a-form-item>
         <a-form-item :wrapper-col="{ offset: 8, span: 16 }">
-          <a-button type="primary" html-type="submit" @click="submit">Submit</a-button>
+          <a-button type="primary" html-type="submit" @click="submit">{{
+            $t("login.title")
+          }}</a-button>
         </a-form-item>
       </a-form>
     </div>
@@ -44,29 +53,69 @@
 </template>
 <script lang="ts" setup>
 import router from "@/router";
-import { reactive } from "vue";
-
+import { reactive, onMounted, ref, computed } from "vue";
+import { verification } from "@/api/login.api";
+import { useStore } from "vuex";
 interface FormState {
-  username: string;
+  mobile: string;
   password: string;
-  verification: string;
+  captcha: string;
+  checkKey: number;
 }
 
 const formState = reactive<FormState>({
-  username: "",
-  password: "",
-  verification: "",
+  mobile: "8765432109",
+  password: "1qaz2WSX...",
+  captcha: "",
+  checkKey: 0,
 });
-const onFinish = (values: any) => {
-  console.log("Success:", values);
-};
+// const checkKey = ref();
+const verificationImg = ref("");
+const store = useStore();
+
+async function onFinish(values: any) {
+  try {
+    let data = {
+      ...formState,
+      password: btoa(values.password),
+    };
+    await store.dispatch("user/login", data);
+    try {
+      await store.dispatch("user/getMerchantInfo");
+      try {
+        router.push("/index");
+      } catch (error) {
+        console.error(error);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 const onFinishFailed = (errorInfo: any) => {
   console.log("Failed:", errorInfo);
 };
 
-const submit = () => {
-  router.push("/");
+// const submit = () => {
+//   store.dispatch("user/login", formState).then((res) => {
+//     console.log(res);
+//   });
+//   // router.push("/");
+// };
+async function submit() {}
+onMounted(() => {
+  // console.log(checkKey);
+  getVerficationCode();
+});
+//获取图片验证码
+const getVerficationCode = () => {
+  formState.checkKey = Date.now();
+  verification(formState.checkKey).then((res) => {
+    verificationImg.value = res.result;
+  });
 };
 </script>
 <style lang="scss" scoped>

@@ -3,27 +3,24 @@ import { message } from "ant-design-vue";
 import { removeToken, removeUserInfo } from "./auth";
 import { getToken } from "@/utils/auth";
 
-var baseURL = "";
-// 根据环境设置 baseURL 和 websocketURL
-if (process.env.NODE_ENV === "development") {
-  baseURL = "https://dev.tradebridge.site/merchant/";
-} else if (process.env.NODE_ENV === "test") {
-  baseURL = "https://testcustom.tradebridge.site/merchant/";
-} else {
-  baseURL = "https://custom.tradebridge.site/merchant/";
-}
-
-console.log(process.env.VUE_APP_BASE_URL);
 // 创建 Axios 实例
 const service = axios.create({
-  baseURL: baseURL,
+  baseURL: process.env.VUE_APP_BASE_URL,
   timeout: 10000000,
 });
 
+declare module "axios" {
+  interface AxiosResponse<T = any> {
+    // 这个地方放属性
+    result: any;
+  }
+  export function create(config?: AxiosRequestConfig): AxiosInstance;
+}
 // 请求拦截器
 service.interceptors.request.use(
   (config) => {
     config.headers["X-Access-Token"] = getToken();
+    console.log(config);
     return config;
   },
   (error) => {
@@ -45,7 +42,7 @@ service.interceptors.response.use(
   (error: AxiosError) => {
     message.error(error.message);
     if (error.response?.status === 401) {
-      window.location.href = "/";
+      window.location.href = "/login";
       removeUserInfo();
       removeToken();
     }

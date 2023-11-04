@@ -7,12 +7,12 @@
       mode="inline"
       :items="items"
       @click="handleClick"
+      collapsible
     ></a-menu>
   </div>
 </template>
 <script lang="ts" setup>
 import { reactive, ref, watch, VueElement, h, computed } from "vue";
-import { MailOutlined, AppstoreOutlined, SettingOutlined } from "@ant-design/icons-vue";
 import type { MenuProps, ItemType } from "ant-design-vue";
 import router from "@/router/index";
 import { useRoute } from "vue-router";

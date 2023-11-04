@@ -5,11 +5,17 @@ const zh = {
   transaction: {
     title: `交易`,
   },
+  gcashAccount: {
+    query: `查询`,
+    queryConfirm: `你确定要查询这个账户对应流水吗？查询操作将扣除对应余额！`,
+    modalTitle: `流水详情`,
+  },
   login: {
     title: `登录`,
     username: "用户名",
     password: "密码",
-    verification: "验证码",
+    captcha: "验证码",
+    mobile: "手机号",
   },
 };
 

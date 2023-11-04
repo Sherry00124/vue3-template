@@ -5,11 +5,17 @@ const en = {
   transaction: {
     title: `Transaction`,
   },
+  gcashAccount: {
+    query: `Query`,
+    queryConfirm: `Are you sure you want to check the account history? Query operation will deduct a certain account balance!`,
+    modalTitle: `Transaction Details`,
+  },
   login: {
     title: `Login`,
     username: "Username",
     password: "Password",
-    verification: "Verification Code",
+    captcha: "Verification Code",
+    mobile: "Mobile",
   },
 };
 
