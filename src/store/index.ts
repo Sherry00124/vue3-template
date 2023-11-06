@@ -4,7 +4,7 @@ import getters from "./getters";
 
 // 导入 user 模块
 import user from "./modules/user";
-
+import appModule from "./modules/app";
 // 创建一个 Vue 3 应用实例
 const app = createApp({});
 
@@ -12,6 +12,7 @@ const app = createApp({});
 const store: Store<any> = createStore({
   modules: {
     user, // 添加 user 模块
+    appModule,
   },
   getters,
 });

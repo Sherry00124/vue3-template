@@ -1,5 +1,5 @@
 import { login, getMerchantInfo } from "@/api/login.api";
-import { getToken, setToken, setUserInfo, getUserInfo } from "@/utils/auth";
+import { getToken, setToken, setUserInfo, getUserInfo } from "@/utils/storage/auth";
 import { Commit, Module, ActionContext } from "vuex";
 
 // State 接口

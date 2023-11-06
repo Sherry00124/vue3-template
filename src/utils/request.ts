@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
 import { message } from "ant-design-vue";
-import { removeToken, removeUserInfo } from "./auth";
-import { getToken } from "@/utils/auth";
+import { removeToken, removeUserInfo } from "@/utils/storage/auth";
+import { getToken } from "@/utils/storage/auth";
 
 // 创建 Axios 实例
 const service = axios.create({
@@ -20,7 +20,6 @@ declare module "axios" {
 service.interceptors.request.use(
   (config) => {
     config.headers["X-Access-Token"] = getToken();
-    console.log(config);
     return config;
   },
   (error) => {

@@ -1,12 +1,19 @@
 <template>
-  <a-table
-    :columns="columns"
-    :data-source="dataList"
-    :scroll="{ x: 1500, y: 300 }"
-    :pagination="{ defaultPageSize: params.pageSize }"
-    @change="handleTableChange"
-  >
-  </a-table>
+  <div class="flex-column-center container">
+    <div v-if="dataList.length == 0">
+      <a-empty />
+    </div>
+    <div v-else>
+      <a-table
+        :columns="columns"
+        :data-source="dataList"
+        :scroll="{ x: 1500, y: 300 }"
+        :pagination="{ defaultPageSize: params.pageSize }"
+        @change="handleTableChange"
+      >
+      </a-table>
+    </div>
+  </div>
 </template>
 <script lang="ts" setup>
 import type { TableColumnsType } from "ant-design-vue";
@@ -20,19 +27,17 @@ onMounted(() => {
 interface Params {
   pageNo: number;
   pageSize: number;
-  phone: string;
 }
 
 const params = reactive<Params>({
   pageNo: 1,
   pageSize: 8,
-  phone: "8765432109",
 });
 
 async function getList() {
   await transactionRecordsList(params).then((res) => {
-    console.log(res);
-    dataList.value = res.result;
+    console.log(res.result.records);
+    dataList.value = res.result.records;
   });
 }
 

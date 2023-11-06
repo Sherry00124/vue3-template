@@ -7,7 +7,6 @@
       mode="inline"
       :items="items"
       @click="handleClick"
-      collapsible
     ></a-menu>
   </div>
 </template>
@@ -16,14 +15,13 @@ import { reactive, ref, watch, VueElement, h, computed } from "vue";
 import type { MenuProps, ItemType } from "ant-design-vue";
 import router from "@/router/index";
 import { useRoute } from "vue-router";
-// 获取当前路由信息
 
 const allRoutes = ref(router.options.routes);
 const currentRoute = useRoute();
 const selectedKeys = ref<string[]>();
 const openKeys = ref<string[]>(["sub1"]);
 selectedKeys.value = [currentRoute.name as string];
-// console.log(currentRoute);
+
 function getItem(
   label: VueElement | string,
   key: string,

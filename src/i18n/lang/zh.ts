@@ -1,4 +1,7 @@
 const zh = {
+  layout: {
+    title: `TradeBridge`,
+  },
   dashboard: {
     title: `首页`,
   },
@@ -9,6 +12,7 @@ const zh = {
     query: `查询`,
     queryConfirm: `你确定要查询这个账户对应流水吗？查询操作将扣除对应余额！`,
     modalTitle: `流水详情`,
+    export: `导出`,
   },
   login: {
     title: `登录`,

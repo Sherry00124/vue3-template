@@ -1,18 +1,34 @@
 <template>
-  <a-table
-    :columns="columns"
-    :data-source="dataList"
-    :scroll="{ x: 1500, y: 300 }"
-    :pagination="{ defaultPageSize: params.pageSize }"
-    @change="handleTableChange"
-  >
-  </a-table>
+  <div class="flex-column-center container">
+    <div v-if="props.dataList.length == 0">
+      <a-empty />
+    </div>
+    <div v-else>
+      <a-table
+        :columns="props.columns"
+        :data-source="props.dataList"
+        :scroll="{ x: 1400 }"
+        :pagination="{ defaultPageSize: params.pageSize }"
+        @change="handlePageChange"
+      >
+      </a-table>
+    </div>
+  </div>
 </template>
 <script lang="ts" setup>
 import { reactive, ref } from "vue";
+const props = defineProps({
+  dataList: {
+    type: Array,
+    default: [],
+  },
+  columns: {
+    type: Array,
+    default: [],
+  },
+});
+const emit = defineEmits(["changePage"]);
 
-const dataList = ref([]);
-const columns = ref([]);
 interface Params {
   pageNo: number;
   pageSize: number;
@@ -25,9 +41,7 @@ const params = reactive<Params>({
   phone: "8765432109",
 });
 
-const handleTableChange = (e: any) => {
-  console.log(e);
-  params.pageSize = e.pageSize;
-  params.pageNo = e.current;
+const handlePageChange = (e: any) => {
+  emit("changePage", e);
 };
 </script>

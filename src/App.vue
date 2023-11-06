@@ -8,9 +8,8 @@
   <Display v-else />
 </template>
 <script lang="ts" setup>
-import Display from "@/components/Display.vue";
+import Display from "@/layout/index.vue";
 import { useRoute } from "vue-router";
 
 const currentRoute = useRoute();
-console.log(currentRoute);
 </script>
