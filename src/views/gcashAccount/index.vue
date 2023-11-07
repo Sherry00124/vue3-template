@@ -1,38 +1,22 @@
 <template>
-  <a-table
-    :columns="columns"
-    :data-source="accountList"
-    :pagination="{ defaultPageSize: params.pageSize }"
-    @change="handleTableChange"
-  >
-    <template #bodyCell="{ column, record }">
-      <template v-if="column.key === 'operation'">
-        <a-popconfirm
-          :title="$t('gcashAccount.queryConfirm')"
-          ok-text="Yes"
-          cancel-text="No"
-          @confirm="selectQuery(record)"
-        >
-          <a href="#">{{ $t("gcashAccount.query") }}</a>
-        </a-popconfirm>
-      </template>
-    </template>
-  </a-table>
+  <TableComponents :data-list="accountList" :columns="columns" @table-action="selectQuery" />
   <a-modal v-model:open="open" :title="$t('gcashAccount.modalTitle')" @ok="handleOk" width="600">
     <div class="flex-column modal-body">
       <div style="text-align: right; margin-bottom: 2rem">
-        <a-button type="primary">{{ $t("gcashAccount.export") }}</a-button>
+        <a-button type="primary" @click="exportData">{{ $t("gcashAccount.export") }}</a-button>
       </div>
       <TableComponents :data-list="transactionRecordsList" :columns="transactionRecordsColumns" />
     </div>
   </a-modal>
 </template>
 <script lang="ts" setup>
+import * as XLSX from "xlsx";
 import type { TableColumnsType } from "ant-design-vue";
 import { onMounted, reactive, ref } from "vue";
-import { gcashAccountList, transferList } from "@/api/query.api";
+import { gcashAccountList, transferList, exportTransferList } from "@/api/query.api";
 import { getUserInfo } from "@/utils/storage/auth";
 import TableComponents from "@/components/Table/index.vue";
+import { useI18n } from "vue-i18n";
 const open = ref<boolean>(false);
 const accountList = ref([]);
 const transactionRecordsList = ref([]);
@@ -42,15 +26,13 @@ onMounted(() => {
 interface Params {
   pageNo: number;
   pageSize: number;
-  // phone: string;
 }
-const userInfo = getUserInfo();
 const params = reactive<Params>({
   pageNo: 1,
   pageSize: 8,
-  // phone: userInfo ? userInfo.mobile : "",
 });
 
+const inputData = ref({ phone: "" });
 /**
  * 获取Gcash列表
  */
@@ -64,12 +46,9 @@ async function getList() {
  * 确认查询某个Gcash对应流水
  */
 async function selectQuery(record: any) {
-  const data = {
-    phone: record.msisdn,
-  };
-  await transferList(data).then((res) => {
+  inputData.value.phone = record.msisdn;
+  await transferList(inputData.value).then((res) => {
     open.value = true;
-    console.log(res);
     transactionRecordsList.value = res.result.records;
   });
 }
@@ -84,6 +63,22 @@ const handleTableChange = (e: any) => {
 const handleOk = (e: MouseEvent) => {
   open.value = false;
 };
+/**
+ * 导出
+ */
+async function exportData() {
+  await exportTransferList(inputData.value).then((res) => {
+    ExportXlsx(res.result);
+  });
+}
+
+const ExportXlsx = (list: any) => {
+  const data = XLSX.utils.json_to_sheet(list);
+  const wb = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb, data, "data");
+  XLSX.writeFile(wb, "data.xlsx");
+};
+
 const columns: TableColumnsType = [
   { title: "id", width: 150, dataIndex: "id", key: "name", fixed: "left" },
   { title: "mpin", width: 100, dataIndex: "mpin", key: "age", fixed: "left" },
@@ -99,6 +94,7 @@ const columns: TableColumnsType = [
   {
     title: "Action",
     key: "operation",
+    dataIndex: useI18n().t("gcashAccount.query"),
     fixed: "right",
     width: 100,
   },
@@ -114,7 +110,6 @@ const transactionRecordsColumns: TableColumnsType = [
   { title: "payPhone", dataIndex: "payPhone", key: "5" },
   { title: "payTime", dataIndex: "payTime", key: "6" },
   { title: "recPhone", dataIndex: "recPhone", key: "7" },
-  { title: "transactionRecordsId", dataIndex: "transactionRecordsId", key: "8" },
   { title: "transferLogsJson", dataIndex: "transferLogsJson", key: "9" },
 ];
 </script>

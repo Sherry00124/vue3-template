@@ -8,6 +8,7 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       hidden: false,
       title: "Dashboard",
+      icon: "AlipayOutlined",
     },
     component: () => import(/* webpackChunkName: "about" */ "../views/dashboard/index.vue"),
   },
@@ -17,6 +18,7 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       hidden: true,
       title: "Login",
+      icon: "MailOutlined",
     },
     component: () => import(/* webpackChunkName: "about" */ "../views/login/index.vue"),
   },
@@ -26,6 +28,7 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       hidden: false,
       title: "Gcash Account",
+      icon: "MailOutlined",
     },
     component: () => import(/* webpackChunkName: "about" */ "../views/gcashAccount/index.vue"),
   },
@@ -35,6 +38,7 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       hidden: false,
       title: "Transaction",
+      icon: "MailOutlined",
     },
     component: () => import(/* webpackChunkName: "about" */ "../views/transaction/index.vue"),
   },

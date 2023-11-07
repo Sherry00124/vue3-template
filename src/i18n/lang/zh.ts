@@ -1,6 +1,9 @@
 const zh = {
   layout: {
     title: `TradeBridge`,
+    logout: `退出`,
+    ch: `中文`,
+    en: `英文`,
   },
   dashboard: {
     title: `首页`,

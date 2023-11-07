@@ -1,61 +1,59 @@
 <template>
-  <div class="flex-column-center container">
-    <div v-if="dataList.length == 0">
-      <a-empty />
-    </div>
-    <div v-else>
-      <a-table
-        :columns="columns"
-        :data-source="dataList"
-        :scroll="{ x: 1500, y: 300 }"
-        :pagination="{ defaultPageSize: params.pageSize }"
-        @change="handleTableChange"
-      >
-      </a-table>
-    </div>
+  <div class="container">
+    <TableComponents
+      :data-list="dataList"
+      :columns="columns"
+      :page="page"
+      @change-page="handleTableChange"
+      @refresh="refresh"
+    />
   </div>
 </template>
 <script lang="ts" setup>
-import type { TableColumnsType } from "ant-design-vue";
 import { onMounted, reactive, ref } from "vue";
 import { transactionRecordsList } from "@/api/query.api";
-
+import TableComponents from "@/components/Table/index.vue";
+import columns from "./transactionoList.data";
 const dataList = ref([]);
 onMounted(() => {
   getList();
 });
-interface Params {
+interface PageSet {
   pageNo: number;
   pageSize: number;
+  total: number;
 }
 
-const params = reactive<Params>({
+const page = reactive<PageSet>({
   pageNo: 1,
   pageSize: 8,
+  total: 0,
 });
 
+/**
+ * 获取列表
+ */
 async function getList() {
-  await transactionRecordsList(params).then((res) => {
-    console.log(res.result.records);
+  await transactionRecordsList(page).then((res) => {
     dataList.value = res.result.records;
+    page.total = res.result.total;
   });
 }
-
+/**
+ *
+ * @param e 分页
+ */
 const handleTableChange = (e: any) => {
-  console.log(e);
-  params.pageSize = e.pageSize;
-  params.pageNo = e.current;
+  page.pageSize = e.pageSize;
+  page.pageNo = e.current;
+  getList();
 };
-const columns: TableColumnsType = [
-  { title: "Full Name", width: 100, dataIndex: "name", key: "name", fixed: "left" },
-  { title: "Age", width: 100, dataIndex: "age", key: "age", fixed: "left" },
-  { title: "Column 1", dataIndex: "address", key: "1", width: 150 },
-  { title: "Column 2", dataIndex: "address", key: "2", width: 150 },
-  { title: "Column 3", dataIndex: "address", key: "3", width: 150 },
-  { title: "Column 4", dataIndex: "address", key: "4", width: 150 },
-  { title: "Column 5", dataIndex: "address", key: "5", width: 150 },
-  { title: "Column 6", dataIndex: "address", key: "6", width: 150 },
-  { title: "Column 7", dataIndex: "address", key: "7", width: 150 },
-  { title: "Column 8", dataIndex: "address", key: "8" },
-];
+/**
+ * 刷新
+ */
+async function refresh() {
+  page.pageNo = 1;
+  page.pageSize = 8;
+  getList();
+}
 </script>

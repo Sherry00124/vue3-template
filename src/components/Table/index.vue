@@ -1,22 +1,37 @@
 <template>
-  <div class="flex-column-center container">
-    <div v-if="props.dataList.length == 0">
-      <a-empty />
+  <div class="container">
+    <div class="container-btn">
+      <a-button shape="circle" :icon="h(RedoOutlined)" @click="refreshPage" />
     </div>
-    <div v-else>
-      <a-table
-        :columns="props.columns"
-        :data-source="props.dataList"
-        :scroll="{ x: 1400 }"
-        :pagination="{ defaultPageSize: params.pageSize }"
-        @change="handlePageChange"
-      >
-      </a-table>
-    </div>
+    <a-table
+      :columns="props.columns"
+      :data-source="props.dataList"
+      :pagination="{ pageSize: page.pageSize, total: page.total, current: page.pageNo }"
+      @change="handlePageChange"
+    >
+      <template #bodyCell="{ column, record }">
+        <template v-if="column.key === 'tags'">
+          <a-tag color="green">
+            {{ column.dataIndex }}
+          </a-tag>
+        </template>
+        <template v-if="column.key === 'operation'">
+          <a-popconfirm
+            :title="$t('gcashAccount.queryConfirm')"
+            ok-text="Yes"
+            cancel-text="No"
+            @confirm="tableAction(record)"
+          >
+            <a href="#">{{ column.dataIndex }}</a>
+          </a-popconfirm>
+        </template>
+      </template>
+    </a-table>
   </div>
 </template>
 <script lang="ts" setup>
-import { reactive, ref } from "vue";
+import { reactive, ref, h } from "vue";
+import { RedoOutlined } from "@ant-design/icons-vue";
 const props = defineProps({
   dataList: {
     type: Array,
@@ -26,22 +41,38 @@ const props = defineProps({
     type: Array,
     default: [],
   },
+  page: {
+    type: Object,
+    default: [],
+  },
 });
-const emit = defineEmits(["changePage"]);
-
-interface Params {
-  pageNo: number;
-  pageSize: number;
-  phone: string;
-}
-
-const params = reactive<Params>({
-  pageNo: 1,
-  pageSize: 8,
-  phone: "8765432109",
-});
-
+const emit = defineEmits(["changePage", "refresh", "tableAction"]);
+/**
+ *
+ * @param e 分页
+ */
 const handlePageChange = (e: any) => {
   emit("changePage", e);
 };
+/**
+ * 页面刷新
+ */
+const refreshPage = () => {
+  emit("refresh");
+};
+/**
+ * 表格操作
+ */
+
+const tableAction = (record: any) => {
+  emit("tableAction", record);
+};
 </script>
+<style lang="scss" scoped>
+.container {
+  &-btn {
+    margin: 10px;
+    text-align: right;
+  }
+}
+</style>

@@ -13,6 +13,7 @@
 <script lang="ts" setup>
 import { reactive, ref, watch, VueElement, h, computed } from "vue";
 import type { MenuProps, ItemType } from "ant-design-vue";
+import { MailOutlined } from "@ant-design/icons-vue";
 import router from "@/router/index";
 import { useRoute } from "vue-router";
 
@@ -41,7 +42,7 @@ function getItem(
 const items = computed(() => {
   return allRoutes.value.map((route) => {
     if (!route.meta?.hidden) {
-      return getItem(route.meta?.title as string, route.name as string); // 假设路由元数据中有 title 和 name
+      return getItem(route.meta?.title as string, route.name as string, () => h(MailOutlined));
     }
   });
 });

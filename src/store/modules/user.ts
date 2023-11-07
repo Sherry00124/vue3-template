@@ -55,7 +55,6 @@ const actions: Actions = {
       commit(MutationTypes.SET_TOKEN, result.token);
       setToken(result.token);
     } catch (error) {
-      console.log(error);
       throw error;
     }
   },
@@ -63,11 +62,9 @@ const actions: Actions = {
   async getMerchantInfo({ commit, state }) {
     try {
       const response = await getMerchantInfo();
-      console.log(response);
       commit(MutationTypes.SET_USERINFO, response.result);
       setUserInfo(response.result);
     } catch (error) {
-      console.log(error);
       throw error;
     }
   },

@@ -1,6 +1,9 @@
 const en = {
   layout: {
     title: `TradeBridge`,
+    logout: `Logout`,
+    ch: `Chinese`,
+    en: `English`,
   },
   dashboard: {
     title: `Dashboard`,

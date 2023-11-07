@@ -13,7 +13,7 @@
           <Header />
         </a-layout-header>
         <a-layout-content
-          :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '580px' }"
+          :style="{ margin: '16px 16px', padding: '16px', background: '#fff', minHeight: '38rem' }"
         >
           <router-view></router-view>
         </a-layout-content>
@@ -36,7 +36,6 @@ watch(
   () => store.state.appModule.sidebar.opened,
   (newSidebar, oldSidebar) => {
     collapsed.value = newSidebar;
-    console.log(collapsed.value);
   }
 );
 </script>
