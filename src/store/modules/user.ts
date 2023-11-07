@@ -1,5 +1,5 @@
 import { login, getMerchantInfo } from "@/api/login.api";
-import { getToken, setToken, setUserInfo, getUserInfo } from "@/utils/storage/auth";
+import { getToken, setToken, setUserInfo, getUserInfo, removeToken } from "@/utils/storage/auth";
 import { Commit, Module, ActionContext } from "vuex";
 
 // State 接口
@@ -29,6 +29,7 @@ interface Actions {
   login({ commit }: { commit: Commit }, input: any): Promise<void>;
   getMerchantInfo({ commit, state }: { commit: Commit; state: State }, data: any): Promise<void>;
   [key: string]: (context: ActionContext<State, RootState>, payload: any) => Promise<void>; // 添加 string 类型的索引签名
+  logout({ commit }: { commit: Commit }): Promise<void>;
 }
 
 const state: State = {
@@ -44,9 +45,7 @@ const mutations: Mutations = {
     state.userInfo = userInfo;
   },
 };
-interface MyApiResponse {
-  result: any; // Change 'any' to the actual type of 'result'
-}
+
 const actions: Actions = {
   async login({ commit }, input) {
     try {
@@ -67,6 +66,10 @@ const actions: Actions = {
     } catch (error) {
       throw error;
     }
+  },
+
+  async logout({ commit }) {
+    removeToken();
   },
 };
 

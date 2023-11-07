@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import HomeView from "../views/Dashboard/HomeView.vue";
+import i18n from "@/i18n/index";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -7,7 +7,7 @@ const routes: Array<RouteRecordRaw> = [
     name: "index",
     meta: {
       hidden: false,
-      title: "Dashboard",
+      title: i18n.global.t("dashboard.title"),
       icon: "AlipayOutlined",
     },
     component: () => import(/* webpackChunkName: "about" */ "../views/dashboard/index.vue"),
@@ -17,7 +17,7 @@ const routes: Array<RouteRecordRaw> = [
     name: "login",
     meta: {
       hidden: true,
-      title: "Login",
+      title: i18n.global.t("login.title"),
       icon: "MailOutlined",
     },
     component: () => import(/* webpackChunkName: "about" */ "../views/login/index.vue"),
@@ -27,7 +27,7 @@ const routes: Array<RouteRecordRaw> = [
     name: "gcash",
     meta: {
       hidden: false,
-      title: "Gcash Account",
+      title: i18n.global.t("gcashAccount.title"),
       icon: "MailOutlined",
     },
     component: () => import(/* webpackChunkName: "about" */ "../views/gcashAccount/index.vue"),
@@ -37,10 +37,20 @@ const routes: Array<RouteRecordRaw> = [
     name: "transaction",
     meta: {
       hidden: false,
-      title: "Transaction",
+      title: i18n.global.t("transaction.title"),
       icon: "MailOutlined",
     },
     component: () => import(/* webpackChunkName: "about" */ "../views/transaction/index.vue"),
+  },
+  {
+    path: "/deposit",
+    name: "deposit",
+    meta: {
+      hidden: false,
+      title: i18n.global.t("deposit.title"),
+      icon: "MailOutlined",
+    },
+    component: () => import(/* webpackChunkName: "about" */ "../views/deposit/index.vue"),
   },
 ];
 

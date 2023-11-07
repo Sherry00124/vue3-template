@@ -9,14 +9,14 @@
       <MenuFoldOutlined :style="{ fontSize: 25 + 'px' }" @click="toggleSidebar" v-else />
     </div>
     <div class="flex-row header-right">
-      <a-menu mode="horizontal" :items="items" />
+      <a-menu mode="horizontal" :items="items" @click="handleClick" :selectable="false" />
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 import { getUserInfo } from "@/utils/storage/auth";
 import { useStore } from "vuex";
-import type {MenuProps} from 'ant-design-vue'
+import type { MenuProps } from "ant-design-vue";
 const store = useStore();
 import {
   SmileOutlined,
@@ -26,32 +26,51 @@ import {
 } from "@ant-design/icons-vue";
 import { computed, ref, h } from "vue";
 import { useI18n } from "vue-i18n";
+
+// const { locale } = useI18n();
+import router from "@/router";
+
 const username = computed(() => {
   const userInfo = getUserInfo();
-  return userInfo ? userInfo.institution : ""; // 使用条件运算符处理可能为 null 的情况
+  return userInfo ? userInfo.institution : "";
 });
 
 const showSidebar = computed(() => {
-  return store.state.appModule.sidebar.opened; // 使用条件运算符处理可能为 null 的情况
+  return store.state.appModule.sidebar.opened;
 });
 
 const toggleSidebar = () => {
   store.dispatch("appModule/toggleSideBar");
 };
 
-const current = ref<string[]>(["mail"]);
+const handleClick = (e: any) => {
+  switch (e.key) {
+    case "chinese":
+      // locale.value = "cn";
+      store.dispatch("langModule/toggleLang", "cn");
+      break;
+    case "english":
+      // locale.value = "en";
+      store.dispatch("langModule/toggleLang", "en");
+      break;
+    case "logout":
+      store.dispatch("user/logout");
+      router.push("/login");
+      break;
+  }
+};
 const items = ref<MenuProps["items"]>([
   {
-    key: "sub1",
+    key: "lang",
     icon: () => h(FontColorsOutlined),
     children: [
       {
         label: useI18n().t("layout.ch"),
-        key: "setting:1",
+        key: "chinese",
       },
       {
         label: useI18n().t("layout.en"),
-        key: "setting:2",
+        key: "english",
       },
     ],
   },
@@ -59,11 +78,10 @@ const items = ref<MenuProps["items"]>([
     key: "app",
     icon: () => h(SmileOutlined),
     label: username,
-    title: username,
     children: [
       {
         label: useI18n().t("layout.logout"),
-        key: "setting:2",
+        key: "logout",
       },
     ],
   },

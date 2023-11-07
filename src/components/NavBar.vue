@@ -42,7 +42,9 @@ function getItem(
 const items = computed(() => {
   return allRoutes.value.map((route) => {
     if (!route.meta?.hidden) {
-      return getItem(route.meta?.title as string, route.name as string, () => h(MailOutlined));
+      return getItem(route.meta?.title as string, route.name as string, () =>
+        h(route.meta?.icon || MailOutlined)
+      );
     }
   });
 });

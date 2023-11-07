@@ -10,17 +10,35 @@
         />
         <EyeInvisibleOutlined class="icon-large" v-else @click="() => (showAmount = !showAmount)" />
       </div>
-      <span class="home-text-content">{{ showAmount ? effectiveAmount : "******" }}</span>
-      <div class="flex-row-cx home-btn">
-        <a-button>Deposit</a-button>
-        <a-button @click="() => router.push('/transaction')">TransactionDetails</a-button>
+      <div class="flex-row-cx">
+        <span class="home-text-content">{{ showAmount ? effectiveAmount : "******" }}</span>
+        <span v-show="showAmount" style="color: blue">USDT</span>
+      </div>
+      <div class="flex-between home-btn">
+        <a-button @click="() => router.push('/deposit')" type="primary">
+          <template #icon>
+            <DownloadOutlined />
+          </template>
+          {{ $t("dashboard.deposit") }}</a-button
+        >
+        <a-button @click="() => router.push('/transaction')">
+          <template #icon>
+            <FileSearchOutlined />
+          </template>
+          {{ $t("dashboard.details") }}</a-button
+        >
       </div>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 import { useStore } from "vuex";
-import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons-vue";
+import {
+  EyeOutlined,
+  EyeInvisibleOutlined,
+  FileSearchOutlined,
+  DownloadOutlined,
+} from "@ant-design/icons-vue";
 import { ref, computed, onMounted, watch } from "vue";
 import router from "@/router";
 
@@ -29,9 +47,8 @@ var effectiveAmount = ref(store.state.user.userInfo.effectiveAmount);
 
 watch(
   () => store.state.user.userInfo.effectiveAmount,
-  (newSidebar, oldSidebar) => {
-    effectiveAmount.value = newSidebar;
-    console.log(123);
+  (newAmount, oldAmount) => {
+    effectiveAmount.value = newAmount;
   }
 );
 
@@ -49,16 +66,19 @@ var showAmount = ref<Boolean>(false);
 .home {
   &-text {
     &-title {
-      font-size: 40px;
+      font-size: 30px;
       margin-right: 5px;
     }
     &-content {
-      font-size: 50px;
+      font-size: 40px;
       font-weight: bold;
+      margin-top: 10px;
     }
   }
   &-btn {
     margin-top: 10px;
+    width: 30%;
+    font-size: 30px;
   }
 }
 </style>

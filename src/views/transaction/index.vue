@@ -13,7 +13,9 @@
 import { onMounted, reactive, ref } from "vue";
 import { transactionRecordsList } from "@/api/query.api";
 import TableComponents from "@/components/Table/index.vue";
-import columns from "./transactionoList.data";
+import type { TableColumnsType } from "ant-design-vue";
+import { useI18n } from "vue-i18n";
+
 const dataList = ref([]);
 onMounted(() => {
   getList();
@@ -56,4 +58,16 @@ async function refresh() {
   page.pageSize = 8;
   getList();
 }
+
+const columns: TableColumnsType = [
+  { title: useI18n().t("transaction.id"), dataIndex: "id", key: "2", fixed: "left" },
+  { title: useI18n().t("transaction.amount"), dataIndex: "amount", key: "age" },
+  {
+    title: useI18n().t("transaction.transactionBizType"),
+    dataIndex: "transactionBizType",
+    key: "6",
+  },
+  { title: useI18n().t("transaction.transactionTime"), dataIndex: "transactionTime", key: "7" },
+  { title: useI18n().t("transaction.txId"), dataIndex: "txId", key: "8" },
+];
 </script>

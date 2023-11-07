@@ -1,11 +1,24 @@
 <template>
-  <TableComponents :data-list="accountList" :columns="columns" @table-action="selectQuery" />
+  <TableComponents
+    :data-list="accountList"
+    :columns="columns"
+    :page="pageAccount"
+    @table-action="selectQuery"
+    @refresh="accountRefresh"
+    @change-page="accountPageChange"
+  />
   <a-modal v-model:open="open" :title="$t('gcashAccount.modalTitle')" @ok="handleOk" width="600">
     <div class="flex-column modal-body">
       <div style="text-align: right; margin-bottom: 2rem">
         <a-button type="primary" @click="exportData">{{ $t("gcashAccount.export") }}</a-button>
       </div>
-      <TableComponents :data-list="transactionRecordsList" :columns="transactionRecordsColumns" />
+      <TableComponents
+        :data-list="transactionRecordsList"
+        :columns="transactionRecordsColumns"
+        :page="pageTransaction"
+        @change-page="transactionPageChange"
+        @refresh="transactionRefresh"
+      />
     </div>
   </a-modal>
 </template>
@@ -23,13 +36,22 @@ const transactionRecordsList = ref([]);
 onMounted(() => {
   getList();
 });
-interface Params {
+interface PageSet {
   pageNo: number;
   pageSize: number;
+  total: number;
 }
-const params = reactive<Params>({
+
+const pageAccount = reactive<PageSet>({
   pageNo: 1,
   pageSize: 8,
+  total: 0,
+});
+
+const pageTransaction = reactive<PageSet>({
+  pageNo: 1,
+  pageSize: 5,
+  total: 0,
 });
 
 const inputData = ref({ phone: "" });
@@ -37,27 +59,65 @@ const inputData = ref({ phone: "" });
  * 获取Gcash列表
  */
 async function getList() {
-  await gcashAccountList(params).then((res) => {
+  await gcashAccountList(pageAccount).then((res) => {
     accountList.value = res.result.records;
+    pageAccount.total = res.result.total;
   });
+}
+/**
+ * 刷新Gcash列表
+ */
+async function accountRefresh() {
+  pageAccount.pageNo = 1;
+  pageAccount.pageSize = 8;
+  getList();
 }
 
 /**
  * 确认查询某个Gcash对应流水
  */
-async function selectQuery(record: any) {
+const selectQuery = (record: any) => {
   inputData.value.phone = record.msisdn;
-  await transferList(inputData.value).then((res) => {
+  getTransactionList();
+};
+
+/**
+ * 查询Gcash流水
+ */
+async function getTransactionList() {
+  let data = {
+    ...inputData.value,
+    ...pageTransaction,
+  };
+  await transferList(data).then((res) => {
     open.value = true;
     transactionRecordsList.value = res.result.records;
+    pageTransaction.total = res.result.total;
   });
+}
+/**
+ * 流水分页
+ */
+const transactionPageChange = (e: any) => {
+  pageTransaction.pageSize = e.pageSize;
+  pageTransaction.pageNo = e.current;
+  getTransactionList();
+};
+/**
+ * 流水刷新
+ */
+async function transactionRefresh(e: any) {
+  pageTransaction.pageNo = 1;
+  pageTransaction.pageSize = 5;
+  getTransactionList();
 }
 /**
  * Gcash列表分页
  */
-const handleTableChange = (e: any) => {
-  params.pageSize = e.pageSize;
-  params.pageNo = e.current;
+const accountPageChange = (e: any) => {
+  pageAccount.pageSize = e.pageSize;
+  pageAccount.pageNo = e.current;
+  getList();
 };
 
 const handleOk = (e: MouseEvent) => {
@@ -80,19 +140,17 @@ const ExportXlsx = (list: any) => {
 };
 
 const columns: TableColumnsType = [
-  { title: "id", width: 150, dataIndex: "id", key: "name", fixed: "left" },
-  { title: "mpin", width: 100, dataIndex: "mpin", key: "age", fixed: "left" },
-  { title: "msisdn", dataIndex: "msisdn", key: "1", width: 150 },
-  { title: "pubKey", dataIndex: "pubKey", key: "2", width: 150 },
-  { title: "priKey", dataIndex: "priKey", key: "3", width: 150 },
-  { title: "publicUserId", dataIndex: "publicUserId", key: "4", width: 150 },
-  { title: "proxyIp", dataIndex: "proxyIp", key: "5", width: 150 },
-  { title: "udt", dataIndex: "udt", key: "6", width: 200 },
-  { title: "xflowId", dataIndex: "xflowId", key: "7", width: 150 },
-  { title: "xudid", dataIndex: "xudid", key: "8", width: 150 },
-  { title: "xcorrelatorId", dataIndex: "xcorrelatorId", key: "9", width: 150 },
   {
-    title: "Action",
+    title: useI18n().t("gcashAccount.id"),
+    width: 150,
+    dataIndex: "id",
+    key: "name",
+    fixed: "left",
+  },
+  { title: useI18n().t("gcashAccount.msisdn"), dataIndex: "msisdn", key: "1", width: 150 },
+  { title: useI18n().t("gcashAccount.udt"), dataIndex: "udt", key: "6", width: 200 },
+  {
+    title: useI18n().t("gcashAccount.action"),
     key: "operation",
     dataIndex: useI18n().t("gcashAccount.query"),
     fixed: "right",
@@ -101,16 +159,11 @@ const columns: TableColumnsType = [
 ];
 
 const transactionRecordsColumns: TableColumnsType = [
-  { title: "account", dataIndex: "account", key: "name", fixed: "left" },
-  { title: "amount", dataIndex: "amount", key: "age", fixed: "left" },
-  { title: "createBy", dataIndex: "createBy", key: "1" },
-  { title: "createTime", dataIndex: "createTime", key: "2" },
-  { title: "delFlag", dataIndex: "delFlag", key: "3" },
-  { title: "gcashOrderNo", dataIndex: "gcashOrderNo", key: "4" },
-  { title: "payPhone", dataIndex: "payPhone", key: "5" },
-  { title: "payTime", dataIndex: "payTime", key: "6" },
-  { title: "recPhone", dataIndex: "recPhone", key: "7" },
-  { title: "transferLogsJson", dataIndex: "transferLogsJson", key: "9" },
+  { title: useI18n().t("gcashAccount.gcashOrderNo"), dataIndex: "gcashOrderNo", key: "4" },
+  { title: useI18n().t("gcashAccount.amount"), dataIndex: "amount", key: "age", fixed: "left" },
+  { title: useI18n().t("gcashAccount.recPhone"), dataIndex: "recPhone", key: "7" },
+  { title: useI18n().t("gcashAccount.payPhone"), dataIndex: "payPhone", key: "5" },
+  { title: useI18n().t("gcashAccount.payTime"), dataIndex: "payTime", key: "6" },
 ];
 </script>
 <style lang="scss" scoped>
