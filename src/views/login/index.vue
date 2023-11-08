@@ -1,5 +1,5 @@
 <template>
-  <div class="container color-baf">
+  <div class="container" :style="{ backgroundColor: token.colorPrimary }">
     <div class="form flex-column-center">
       <h1>{{ $t("login.title") }}</h1>
       <a-form
@@ -9,7 +9,6 @@
         :wrapper-col="{ span: 16 }"
         autocomplete="off"
         @finish="onFinish"
-        @finishFailed="onFinishFailed"
       >
         <a-form-item
           :label="$t('login.mobile')"
@@ -56,6 +55,10 @@ import router from "@/router";
 import { reactive, onMounted, ref, computed } from "vue";
 import { verification } from "@/api/login.api";
 import { useStore } from "vuex";
+import { theme } from "ant-design-vue";
+const { useToken } = theme;
+const { token } = useToken();
+
 interface FormState {
   mobile: string;
   password: string;
@@ -95,16 +98,6 @@ async function onFinish(values: any) {
   }
 }
 
-const onFinishFailed = (errorInfo: any) => {
-  console.log("Failed:", errorInfo);
-};
-
-// const submit = () => {
-//   store.dispatch("user/login", formState).then((res) => {
-//     console.log(res);
-//   });
-//   // router.push("/");
-// };
 async function submit() {}
 onMounted(() => {
   // console.log(checkKey);

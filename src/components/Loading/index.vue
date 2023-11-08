@@ -37,7 +37,7 @@ export default defineComponent({
   inset: 0;
   z-index: 9999;
   margin: auto;
-  background-color: #7f7d7db1;
+  background-color: #7f7d7db9;
 
   .loader-cogs {
     position: absolute;

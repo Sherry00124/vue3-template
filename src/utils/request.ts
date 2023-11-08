@@ -22,6 +22,7 @@ service.interceptors.request.use(
   (config) => {
     app.config.globalProperties.$Loading.showLoading();
     config.headers["X-Access-Token"] = getToken();
+    console.log(config)
     return config;
   },
   (error) => {

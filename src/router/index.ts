@@ -9,6 +9,15 @@ import {
 
 const routes: Array<RouteRecordRaw> = [
   {
+    path: "/",
+    name: "login",
+    meta: {
+      hidden: true,
+      title: i18n.global.t("login.title"),
+    },
+    component: () => import(/* webpackChunkName: "about" */ "../views/login/index.vue"),
+  },
+  {
     path: "/index",
     name: "index",
     meta: {
@@ -17,15 +26,6 @@ const routes: Array<RouteRecordRaw> = [
       icon: AppstoreOutlined,
     },
     component: () => import(/* webpackChunkName: "about" */ "../views/dashboard/index.vue"),
-  },
-  {
-    path: "/login",
-    name: "login",
-    meta: {
-      hidden: true,
-      title: i18n.global.t("login.title"),
-    },
-    component: () => import(/* webpackChunkName: "about" */ "../views/login/index.vue"),
   },
   {
     path: "/gcash",

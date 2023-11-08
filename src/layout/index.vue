@@ -42,7 +42,6 @@ watch(
 <style scoped lang="scss">
 .logo {
   padding: 15px;
-  background: rgba(55, 45, 45, 0.3);
   color: #fff;
   font-size: 25px;
   font-weight: bold;

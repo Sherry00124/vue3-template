@@ -7,6 +7,7 @@
       mode="inline"
       :items="items"
       @click="handleClick"
+      theme="dark"
     ></a-menu>
   </div>
 </template>
