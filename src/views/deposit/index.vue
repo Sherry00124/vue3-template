@@ -21,7 +21,7 @@ from '@/utils/storage/auth'; import userModule from '@/store/modules/user'; impo
                 style="width: calc(100% - 200px)"
                 disabled
               />
-              <a-button>
+              <a-button @click="copy">
                 <template #icon><CopyOutlined /></template>
               </a-button>
             </a-input-group>
@@ -49,7 +49,7 @@ import { useStore } from "vuex";
 import type { Rule } from "ant-design-vue/es/form";
 import { useI18n } from "vue-i18n";
 import { deposit } from "@/api/deposit.api";
-import router from "@/router";
+import clipboard3 from "vue-clipboard3";
 import { message } from "ant-design-vue";
 const store = useStore();
 interface FormState {
@@ -63,7 +63,16 @@ const formState = reactive<FormState>({
   txId: "",
   amount: "",
 });
-const validateAmount = (rule, value, callback) => {
+const { toClipboard } = clipboard3();
+const copy = async () => {
+  try {
+    await toClipboard(formState.address);
+    message.success("OK");
+  } catch (error) {
+    message.success("Failed");
+  }
+};
+const validateAmount = (rule: any, value: any, callback: any) => {
   const regex = /^\d+(\.\d{1,2})?$/;
   if (!regex.test(value)) {
     callback(new Error("Amount must have up to 2 decimal places"));
@@ -71,7 +80,7 @@ const validateAmount = (rule, value, callback) => {
     callback();
   }
 };
-const validateTxId = (rule, value, callback) => {
+const validateTxId = (rule: any, value: any, callback: any) => {
   // 定义只包含字母和数字的正则表达式
   const regex = /^[a-zA-Z0-9]+$/;
   if (!regex.test(value)) {

@@ -6,5 +6,14 @@ import Antd from "ant-design-vue";
 import "ant-design-vue/dist/reset.css";
 import i18n from "@/i18n/index";
 import "@/assets/style/global.css";
+import Loading from "@/components/Loading/index";
 
-createApp(App).use(Antd).use(i18n).use(store).use(router).mount("#app");
+const app = createApp(App);
+app.use(Antd);
+app.use(i18n);
+app.use(store);
+app.use(router);
+app.use(Loading);
+app.mount("#app");
+
+export default app;

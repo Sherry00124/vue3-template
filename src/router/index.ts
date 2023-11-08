@@ -1,5 +1,11 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import i18n from "@/i18n/index";
+import {
+  OrderedListOutlined,
+  AppstoreOutlined,
+  AlignLeftOutlined,
+  VerticalAlignBottomOutlined,
+} from "@ant-design/icons-vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -8,7 +14,7 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       hidden: false,
       title: i18n.global.t("dashboard.title"),
-      icon: "AlipayOutlined",
+      icon: AppstoreOutlined,
     },
     component: () => import(/* webpackChunkName: "about" */ "../views/dashboard/index.vue"),
   },
@@ -18,7 +24,6 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       hidden: true,
       title: i18n.global.t("login.title"),
-      icon: "MailOutlined",
     },
     component: () => import(/* webpackChunkName: "about" */ "../views/login/index.vue"),
   },
@@ -28,7 +33,7 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       hidden: false,
       title: i18n.global.t("gcashAccount.title"),
-      icon: "MailOutlined",
+      icon: OrderedListOutlined,
     },
     component: () => import(/* webpackChunkName: "about" */ "../views/gcashAccount/index.vue"),
   },
@@ -38,7 +43,7 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       hidden: false,
       title: i18n.global.t("transaction.title"),
-      icon: "MailOutlined",
+      icon: AlignLeftOutlined,
     },
     component: () => import(/* webpackChunkName: "about" */ "../views/transaction/index.vue"),
   },
@@ -48,7 +53,7 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       hidden: false,
       title: i18n.global.t("deposit.title"),
-      icon: "MailOutlined",
+      icon: VerticalAlignBottomOutlined,
     },
     component: () => import(/* webpackChunkName: "about" */ "../views/deposit/index.vue"),
   },

@@ -13,7 +13,7 @@ const currentLang = getLang();
 const i18n: any = createI18n({
   legacy: false, // 使用 Composition API 模式，则需要将其设置为false
   globalInjection: true, //全局生效$t
-  locale: (currentLang as string) || "cn", // 默认cn翻译
+  locale: (currentLang as string) || "en", // 默认cn翻译
   messages, //ES6解构
 });
 

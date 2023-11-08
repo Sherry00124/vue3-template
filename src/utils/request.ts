@@ -2,7 +2,7 @@ import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
 import { message } from "ant-design-vue";
 import { removeToken, removeUserInfo } from "@/utils/storage/auth";
 import { getToken } from "@/utils/storage/auth";
-
+import app from "@/main";
 // 创建 Axios 实例
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_URL,
@@ -20,6 +20,7 @@ declare module "axios" {
 // 请求拦截器
 service.interceptors.request.use(
   (config) => {
+    app.config.globalProperties.$Loading.showLoading();
     config.headers["X-Access-Token"] = getToken();
     return config;
   },
@@ -31,6 +32,7 @@ service.interceptors.request.use(
 // 响应拦截器
 service.interceptors.response.use(
   (response: AxiosResponse) => {
+    app.config.globalProperties.$Loading.hideLoading();
     const res = response.data;
     if (res.code !== 200) {
       message.error(res.message || "Error");

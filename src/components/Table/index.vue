@@ -3,30 +3,32 @@
     <div class="container-btn">
       <a-button shape="circle" :icon="h(RedoOutlined)" @click="refreshPage" />
     </div>
-    <a-table
-      :columns="props.columns"
-      :data-source="props.dataList"
-      :pagination="{ pageSize: page.pageSize, total: page.total, current: page.pageNo }"
-      @change="handlePageChange"
-    >
-      <template #bodyCell="{ column, record }">
-        <template v-if="column.key === 'tags'">
-          <a-tag color="green">
-            {{ column.dataIndex }}
-          </a-tag>
+    <!-- <a-spin :spinning="spinning"> -->
+      <a-table
+        :columns="props.columns"
+        :data-source="props.dataList"
+        :pagination="{ pageSize: page.pageSize, total: page.total, current: page.pageNo }"
+        @change="handlePageChange"
+      >
+        <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'tags'">
+            <a-tag color="green">
+              {{ column.dataIndex }}
+            </a-tag>
+          </template>
+          <template v-if="column.key === 'operation'">
+            <a-popconfirm
+              :title="$t('gcashAccount.queryConfirm')"
+              ok-text="Yes"
+              cancel-text="No"
+              @confirm="tableAction(record)"
+            >
+              <a href="#">{{ column.dataIndex }}</a>
+            </a-popconfirm>
+          </template>
         </template>
-        <template v-if="column.key === 'operation'">
-          <a-popconfirm
-            :title="$t('gcashAccount.queryConfirm')"
-            ok-text="Yes"
-            cancel-text="No"
-            @confirm="tableAction(record)"
-          >
-            <a href="#">{{ column.dataIndex }}</a>
-          </a-popconfirm>
-        </template>
-      </template>
-    </a-table>
+      </a-table>
+    <!-- </a-spin> -->
   </div>
 </template>
 <script lang="ts" setup>
@@ -47,11 +49,13 @@ const props = defineProps({
   },
 });
 const emit = defineEmits(["changePage", "refresh", "tableAction"]);
+const spinning = ref<Boolean>(false);
 /**
  *
  * @param e 分页
  */
 const handlePageChange = (e: any) => {
+  spinning.value = true;
   emit("changePage", e);
 };
 /**

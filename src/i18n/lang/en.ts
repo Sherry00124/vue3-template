@@ -42,7 +42,7 @@ const en = {
     mobile: "Mobile",
   },
   deposit: {
-    title: "Title",
+    title: "Deposit",
     message: "Please make sure the amount and txid you provide are correct!",
     address: "Receive Address",
     amount: "Amount(USDT)",

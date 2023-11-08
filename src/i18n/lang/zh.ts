@@ -42,7 +42,7 @@ const zh = {
     mobile: "手机号",
   },
   deposit: {
-    title: "提现",
+    title: "充值",
     message: "请确保输入正确的金额和交易哈希！",
     address: "充值地址",
     amount: "金额(USDT)",
