@@ -15,7 +15,7 @@
           name="mobile"
           :rules="[{ required: true, message: 'Please input your mobile!' }]"
         >
-          <a-input v-model:value="formState.mobile" />
+          <a-input v-model:value="formState.mobile"> </a-input>
         </a-form-item>
 
         <a-form-item
@@ -23,7 +23,7 @@
           name="password"
           :rules="[{ required: true, message: 'Please input your password!' }]"
         >
-          <a-input-password v-model:value="formState.password" />
+          <a-input-password v-model:value="formState.password"> </a-input-password>
         </a-form-item>
         <a-form-item
           :label="$t('login.captcha')"
@@ -56,6 +56,7 @@ import { reactive, onMounted, ref, computed } from "vue";
 import { verification } from "@/api/login.api";
 import { useStore } from "vuex";
 import { theme } from "ant-design-vue";
+import { MobileOutlined } from "@ant-design/icons-vue";
 const { useToken } = theme;
 const { token } = useToken();
 

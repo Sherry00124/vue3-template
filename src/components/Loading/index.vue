@@ -41,7 +41,7 @@ export default defineComponent({
 
   .loader-cogs {
     position: absolute;
-    top: -120px !important;
+    top: -20px !important;
     top: 0;
     right: 0;
     bottom: 0;

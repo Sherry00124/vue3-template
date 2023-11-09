@@ -7,6 +7,7 @@
         v-if="showSidebar"
       />
       <MenuFoldOutlined :style="{ fontSize: 25 + 'px' }" @click="toggleSidebar" v-else />
+      <!-- <a-page-header :breadcrumb="{ routes }" /> -->
     </div>
     <div class="flex-row header-right">
       <a-menu mode="horizontal" :items="items" @click="handleClick" :selectable="false" />
@@ -17,7 +18,8 @@
 import { getUserInfo } from "@/utils/storage/auth";
 import { useStore } from "vuex";
 import type { MenuProps } from "ant-design-vue";
-const store = useStore();
+import router from "@/router/index";
+const allRoutes = ref(router.options.routes);
 import {
   SmileOutlined,
   MenuFoldOutlined,
@@ -27,17 +29,25 @@ import {
 import { computed, ref, h } from "vue";
 import { useI18n } from "vue-i18n";
 
-// const { locale } = useI18n();
-import router from "@/router";
+const store = useStore();
 
 const username = computed(() => {
-  const userInfo = getUserInfo();
+  const userInfo = store.state.user.userInfo;
   return userInfo ? userInfo.institution : "";
 });
 
 const showSidebar = computed(() => {
   return store.state.appModule.sidebar.opened;
 });
+// const breadcrumb = computed(() => {
+//   var breadcrumbArray: any = [];
+//   allRoutes.value.map((element: any) => {
+//     breadcrumbArray.push({ path: element.path, breadcrumbName: element.meta.title });
+//   });
+//   return breadcrumbArray;
+// });
+// console.log(username);
+// console.log(breadcrumb);
 
 const toggleSidebar = () => {
   store.dispatch("appModule/toggleSideBar");
@@ -46,11 +56,9 @@ const toggleSidebar = () => {
 const handleClick = (e: any) => {
   switch (e.key) {
     case "chinese":
-      // locale.value = "cn";
       store.dispatch("langModule/toggleLang", "cn");
       break;
     case "english":
-      // locale.value = "en";
       store.dispatch("langModule/toggleLang", "en");
       break;
     case "logout":
@@ -59,6 +67,7 @@ const handleClick = (e: any) => {
       break;
   }
 };
+
 const items = ref<MenuProps["items"]>([
   {
     key: "lang",
@@ -104,7 +113,6 @@ const items = ref<MenuProps["items"]>([
     }
     &-text {
       font-size: 20px;
-      // color: #24a6f2;
     }
   }
 }

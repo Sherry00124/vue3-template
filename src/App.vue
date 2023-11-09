@@ -1,16 +1,18 @@
 <template>
-  <a-config-provider
-    :locale="locale === 'en' ? enUS : zhCN"
-    :theme="{
-      token: {
-        colorPrimary: '#259C77',
-      },
-    }"
-  >
-    <router-view v-if="currentRoute.name == 'login'" />
+  <Transition>
+    <a-config-provider
+      :locale="locale === 'en' ? enUS : zhCN"
+      :theme="{
+        token: {
+          colorPrimary: '#259C77',
+        },
+      }"
+    >
+      <router-view v-if="currentRoute.name == 'login'" />
 
-    <Display v-else />
-  </a-config-provider>
+      <Display v-else />
+    </a-config-provider>
+  </Transition>
 </template>
 <script lang="ts" setup>
 import Display from "@/layout/index.vue";
@@ -26,3 +28,15 @@ import zhCN from "ant-design-vue/es/locale/zh_CN";
 
 const locale = ref(store.state.langModule.currentLang.lang);
 </script>
+
+<style lang="scss" scoped>
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+</style>

@@ -2,6 +2,7 @@ import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
 import { message } from "ant-design-vue";
 import { removeToken, removeUserInfo } from "@/utils/storage/auth";
 import { getToken } from "@/utils/storage/auth";
+import store from "@/store";
 import app from "@/main";
 // 创建 Axios 实例
 const service = axios.create({
@@ -17,12 +18,14 @@ declare module "axios" {
   }
   export function create(config?: AxiosRequestConfig): AxiosInstance;
 }
+
 // 请求拦截器
 service.interceptors.request.use(
   (config) => {
     app.config.globalProperties.$Loading.showLoading();
-    config.headers["X-Access-Token"] = getToken();
-    console.log(config)
+    if (store.state.user.token) {
+      config.headers["X-Access-Token"] = store.state.user.token;
+    }
     return config;
   },
   (error) => {
