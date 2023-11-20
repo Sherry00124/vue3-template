@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="items">
     <a-menu
       v-model:openKeys="openKeys"
       v-model:selectedKeys="selectedKeys"
@@ -81,20 +81,21 @@ const handleClick: MenuProps["onClick"] = (e) => {
   router.push("/" + (e.key as string));
 };
 
-// 在路由变化时，更新选中菜单项
 watch(
-  () => currentRoute.path,
-  (newPath) => {
-    const matchedMenuKey = getMenuKeyByRoutePath(newPath);
+  () => currentRoute.name,
+  (newName) => {
+    const matchedMenuKey = getMenuKeyByRoutePath(newName);
     selectedKeys.value = [matchedMenuKey];
     openKeys.value = [matchedMenuKey];
   }
 );
-console.log(items);
-function getMenuKeyByRoutePath(path: string): string {
-  const matchedRoute = allRoutes.value.find((route) => {
-    return path.startsWith(route.path);
-  });
-  return matchedRoute ? (matchedRoute.name as string) : "";
+
+function getMenuKeyByRoutePath(name: string): string {
+  for (const item of allRoutes.value) {
+    if (item.children && item.children.length > 0 && item.children[0].name === name) {
+      return name;
+    }
+  }
+  return ""; // Return a default value or handle the case when no match is found
 }
 </script>

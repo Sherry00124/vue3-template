@@ -1,7 +1,7 @@
 <template>
   <div class="loading" v-show="visible">
     <div class="loader-cogs">
-      <LoadingOutlined />
+      <!-- <LoadingOutlined /> -->
       <span>Loading...</span>
     </div>
   </div>
