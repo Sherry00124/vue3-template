@@ -49,8 +49,9 @@ const mutations: Mutations = {
 const actions: Actions = {
   async login({ commit }, input) {
     try {
-      const response = await login(input);
+      const response = await login(input, { loading: true });
       const result = response.result;
+      console.log(result);
       commit(MutationTypes.SET_TOKEN, result.token);
       setToken(result.token);
     } catch (error) {

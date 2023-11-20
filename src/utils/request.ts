@@ -1,9 +1,15 @@
-import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
+import axios, {
+  AxiosRequestConfig,
+  AxiosResponse,
+  AxiosError,
+  InternalAxiosRequestConfig,
+} from "axios";
 import { message } from "ant-design-vue";
 import { removeToken, removeUserInfo } from "@/utils/storage/auth";
 import { getToken } from "@/utils/storage/auth";
 import store from "@/store";
 import app from "@/main";
+import Loading from "@/components/Loading";
 // 创建 Axios 实例
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_URL,
@@ -19,10 +25,16 @@ declare module "axios" {
   export function create(config?: AxiosRequestConfig): AxiosInstance;
 }
 
+interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
+  loading?: boolean;
+}
 // 请求拦截器
 service.interceptors.request.use(
-  (config) => {
-    app.config.globalProperties.$Loading.showLoading();
+  (config: CustomAxiosRequestConfig) => {
+    if (config.loading) {
+      app.config.globalProperties.$Loading.showLoading();
+    }
+
     if (store.state.user.token) {
       config.headers["X-Access-Token"] = store.state.user.token;
     }

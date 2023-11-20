@@ -8,9 +8,10 @@
         },
       }"
     >
-      <router-view v-if="currentRoute.name == 'login'" />
+      <!-- <router-view v-if="currentRoute.name == 'login'" /> -->
 
-      <Display v-else />
+      <!-- <Display v-else /> -->
+      <router-view />
     </a-config-provider>
   </Transition>
 </template>

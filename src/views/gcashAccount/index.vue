@@ -59,7 +59,7 @@ const inputData = ref({ phone: "" });
  * 获取Gcash列表
  */
 async function getList() {
-  await gcashAccountList(pageAccount).then((res) => {
+  await gcashAccountList(pageAccount, { loading: true }).then((res) => {
     accountList.value = res.result.records;
     pageAccount.total = res.result.total;
   });
@@ -89,7 +89,7 @@ async function getTransactionList() {
     ...inputData.value,
     ...pageTransaction,
   };
-  await transferList(data).then((res) => {
+  await transferList(data, { loading: true }).then((res) => {
     open.value = true;
     transactionRecordsList.value = res.result.records;
     pageTransaction.total = res.result.total;
@@ -127,7 +127,7 @@ const handleOk = (e: MouseEvent) => {
  * 导出
  */
 async function exportData() {
-  await exportTransferList(inputData.value).then((res) => {
+  await exportTransferList(inputData.value, { loading: true }).then((res) => {
     ExportXlsx(res.result);
   });
 }

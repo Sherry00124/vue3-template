@@ -36,7 +36,7 @@ const page = reactive<PageSet>({
  * 获取列表
  */
 async function getList() {
-  await transactionRecordsList(page).then((res) => {
+  await transactionRecordsList(page, { loading: true }).then((res) => {
     dataList.value = res.result.records;
     page.total = res.result.total;
   });

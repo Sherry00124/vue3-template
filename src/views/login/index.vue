@@ -68,7 +68,7 @@ interface FormState {
 }
 
 const formState = reactive<FormState>({
-  mobile: "8765432109",
+  mobile: "9980001001",
   password: "1qaz2WSX...",
   captcha: "",
   checkKey: 0,
@@ -87,7 +87,7 @@ async function onFinish(values: any) {
     try {
       await store.dispatch("user/getMerchantInfo");
       try {
-        router.push("/index");
+        router.push("/dashboard");
       } catch (error) {
         console.error(error);
       }
@@ -107,7 +107,7 @@ onMounted(() => {
 //获取图片验证码
 const getVerficationCode = () => {
   formState.checkKey = Date.now();
-  verification(formState.checkKey).then((res) => {
+  verification(formState.checkKey, { loading: false }).then((res) => {
     verificationImg.value = res.result;
   });
 };

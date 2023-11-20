@@ -10,7 +10,7 @@ import {
 import Layout from "@/layout/index.vue";
 const routes: Array<RouteRecordRaw> = [
   {
-    path: "/login",
+    path: "/",
     name: "login",
     meta: {
       hidden: true,
@@ -20,48 +20,80 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import(/* webpackChunkName: "about" */ "../views/login/index.vue"),
   },
   {
-    path: "/index",
-    name: "index",
-    meta: {
-      hidden: false,
-      title: i18n.global.t("dashboard.title"),
-      icon: AppstoreOutlined,
-      breadcrumb: true,
-    },
-    component: () => import(/* webpackChunkName: "about" */ "../views/dashboard/index.vue"),
+    path: "/dashboard",
+    component: () => import(/* webpackChunkName: "about" */ "../layout/index.vue"),
+    meta: { hidden: false },
+    redirect: "/dashboard/index",
+    children: [
+      {
+        path: "/dashboard/index",
+        name: "dashboard",
+        meta: {
+          hidden: false,
+          title: i18n.global.t("dashboard.title"),
+          icon: AppstoreOutlined,
+          breadcrumb: true,
+        },
+        component: () => import(/* webpackChunkName: "about" */ "../views/dashboard/index.vue"),
+      },
+    ],
   },
   {
     path: "/gcash",
-    name: "gcash",
-    meta: {
-      hidden: false,
-      title: i18n.global.t("gcashAccount.title"),
-      icon: OrderedListOutlined,
-      breadcrumb: true,
-    },
-    component: () => import(/* webpackChunkName: "about" */ "../views/gcashAccount/index.vue"),
+    component: Layout,
+    meta: { hidden: false },
+    redirect: "/gcash/index",
+    children: [
+      {
+        path: "/gcash/index",
+        name: "gcash",
+        meta: {
+          hidden: false,
+          title: i18n.global.t("gcashAccount.title"),
+          icon: OrderedListOutlined,
+          breadcrumb: true,
+        },
+        component: () => import(/* webpackChunkName: "about" */ "../views/gcashAccount/index.vue"),
+      },
+    ],
   },
   {
     path: "/transaction",
-    name: "transaction",
-    meta: {
-      hidden: false,
-      title: i18n.global.t("transaction.title"),
-      icon: AlignLeftOutlined,
-      breadcrumb: true,
-    },
-    component: () => import(/* webpackChunkName: "about" */ "../views/transaction/index.vue"),
+    component: Layout,
+    meta: { hidden: false },
+    redirect: "/transaction/index",
+    children: [
+      {
+        path: "/transaction/index",
+        name: "transaction",
+        meta: {
+          hidden: false,
+          title: i18n.global.t("transaction.title"),
+          icon: AlignLeftOutlined,
+          breadcrumb: true,
+        },
+        component: () => import(/* webpackChunkName: "about" */ "../views/transaction/index.vue"),
+      },
+    ],
   },
   {
     path: "/deposit",
-    name: "deposit",
-    meta: {
-      hidden: false,
-      title: i18n.global.t("deposit.title"),
-      icon: VerticalAlignBottomOutlined,
-      breadcrumb: true,
-    },
-    component: () => import(/* webpackChunkName: "about" */ "../views/deposit/index.vue"),
+    component: Layout,
+    meta: { hidden: false },
+    redirect: "/deposit/index",
+    children: [
+      {
+        path: "/deposit/index",
+        name: "deposit",
+        meta: {
+          hidden: false,
+          title: i18n.global.t("deposit.title"),
+          icon: VerticalAlignBottomOutlined,
+          breadcrumb: true,
+        },
+        component: () => import(/* webpackChunkName: "about" */ "../views/deposit/index.vue"),
+      },
+    ],
   },
 ];
 

@@ -15,7 +15,7 @@
         <a-layout-content
           :style="{ margin: '16px 16px', padding: '16px', background: '#fff', minHeight: '38rem' }"
         >
-          <router-view></router-view>
+          <router-view :key="key"></router-view>
         </a-layout-content>
       </a-layout>
     </a-layout>
@@ -27,6 +27,9 @@ import NavBar from "@/components/NavBar.vue";
 import Header from "@/components/Header.vue";
 import { reactive, ref, watch, VueElement, h, computed } from "vue";
 import { useStore } from "vuex";
+import { useRoute } from "vue-router";
+const currentRoute = useRoute();
+
 const store = useStore();
 
 var collapsed = ref<Boolean>(store.state.appModule.sidebar.opened);
@@ -38,6 +41,10 @@ watch(
     collapsed.value = newSidebar;
   }
 );
+
+const key = computed(() => {
+  return currentRoute.path;
+});
 </script>
 <style scoped lang="scss">
 .logo {

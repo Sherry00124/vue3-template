@@ -1,5 +1,5 @@
 <template>
-  <div id="loading" v-show="visible">
+  <div class="loading" v-show="visible">
     <div class="loader-cogs">
       <LoadingOutlined />
       <span>Loading...</span>
@@ -32,7 +32,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-#loading {
+.loading {
   position: absolute;
   inset: 0;
   z-index: 9999;
@@ -50,6 +50,7 @@ export default defineComponent({
     margin: auto;
     width: 100px;
     height: 100px;
+    // position: relative;
   }
 }
 </style>
