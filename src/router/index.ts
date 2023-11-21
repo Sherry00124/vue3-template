@@ -11,6 +11,10 @@ import Layout from "@/layout/index.vue";
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
+    redirect: "/login",
+  },
+  {
+    path: "/login",
     name: "login",
     meta: {
       hidden: true,
