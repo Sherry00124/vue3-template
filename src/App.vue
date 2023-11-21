@@ -8,15 +8,11 @@
         },
       }"
     >
-      <!-- <router-view v-if="currentRoute.name == 'login'" /> -->
-
-      <!-- <Display v-else /> -->
       <router-view />
     </a-config-provider>
   </Transition>
 </template>
 <script lang="ts" setup>
-import Display from "@/layout/index.vue";
 import { useRoute } from "vue-router";
 import { ref } from "vue";
 import { useStore } from "vuex";

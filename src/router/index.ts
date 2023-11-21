@@ -8,6 +8,12 @@ import {
 } from "@ant-design/icons-vue";
 
 import Layout from "@/layout/index.vue";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
+import { getToken } from "@/utils/storage/auth";
+NProgress.configure({ showSpinner: false });
+
+const whiteList = ["/login"];
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
@@ -97,9 +103,36 @@ const routes: Array<RouteRecordRaw> = [
   },
 ];
 
+// const router = createRouter({
+//   history: createWebHistory(process.env.BASE_URL),
+//   routes,
+// });
+
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  const hasToken = getToken();
+  NProgress.start();
+  if (hasToken) {
+    next();
+    console.log(789);
+  } else {
+    if (whiteList.indexOf(to.path) !== -1) {
+      console.log(123);
+      next();
+    } else {
+      console.log(456);
+      next(`/login`);
+      NProgress.done();
+    }
+  }
+});
+
+router.afterEach(() => {
+  NProgress.done();
 });
 
 export default router;
