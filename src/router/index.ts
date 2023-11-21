@@ -17,6 +17,10 @@ const whiteList = ["/login"];
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
+    redirect: "/login",
+  },
+  {
+    path: "/login",
     name: "login",
     meta: {
       hidden: true,
