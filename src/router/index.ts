@@ -18,6 +18,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     redirect: "/login",
+    meta: { hidden: true },
   },
   {
     path: "/login",
@@ -122,13 +123,10 @@ router.beforeEach((to, from, next) => {
   NProgress.start();
   if (hasToken) {
     next();
-    console.log(789);
   } else {
     if (whiteList.indexOf(to.path) !== -1) {
-      console.log(123);
       next();
     } else {
-      console.log(456);
       next(`/login`);
       NProgress.done();
     }

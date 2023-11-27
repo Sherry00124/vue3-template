@@ -11,11 +11,9 @@
 5. 封装 antd 的表格组件
 6. 封装全局 Loading
 7. 根据接口自定义是否显示 loading
+8. 路由权限
 
 ### todo
 
-- 权限路由
-- loading 重新封装
 - mock 数据
 - header 展示路由信息
-- 页面切换的过渡动画
