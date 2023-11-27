@@ -7,7 +7,7 @@ import "ant-design-vue/dist/reset.css";
 import i18n from "@/i18n/index";
 import "@/assets/style/global.css";
 import Loading from "@/components/Loading/index";
-
+import "./mock/index";
 const app = createApp(App);
 app.use(Antd);
 app.use(i18n);

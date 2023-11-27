@@ -12,7 +12,7 @@ import app from "@/main";
 import Loading from "@/components/Loading";
 // 创建 Axios 实例
 const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_URL,
+  baseURL: "",
   timeout: 10000000,
 });
 

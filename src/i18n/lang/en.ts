@@ -51,6 +51,10 @@ const en = {
     validateTxId: "Please input valid txid",
     validateAmount: "Please input valid amount",
   },
+  api: {
+    success: "Success",
+    error: "Something went wrong!",
+  },
 };
 
 export default en;

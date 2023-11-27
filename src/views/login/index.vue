@@ -25,26 +25,8 @@
         >
           <a-input-password v-model:value="formState.password"> </a-input-password>
         </a-form-item>
-        <a-form-item
-          :label="$t('login.captcha')"
-          name="captcha"
-          :rules="[{ required: true, message: 'Please input your captcha!' }]"
-        >
-          <a-input v-model:value="formState.captcha">
-            <template #suffix>
-              <a-image
-                :height="30"
-                :preview="false"
-                :src="verificationImg ? verificationImg : 'https://img.yzcdn.cn/vant/cat.jpeg'"
-                @click="getVerficationCode"
-              />
-            </template>
-          </a-input>
-        </a-form-item>
         <a-form-item :wrapper-col="{ offset: 8, span: 16 }">
-          <a-button type="primary" html-type="submit" @click="submit">{{
-            $t("login.title")
-          }}</a-button>
+          <a-button type="primary" html-type="submit">{{ $t("login.title") }}</a-button>
         </a-form-item>
       </a-form>
     </div>
@@ -63,25 +45,19 @@ const { token } = useToken();
 interface FormState {
   mobile: string;
   password: string;
-  captcha: string;
-  checkKey: number;
 }
 
 const formState = reactive<FormState>({
-  mobile: "9980001001",
-  password: "1qaz2WSX...",
-  captcha: "",
-  checkKey: 0,
+  mobile: "1234567890",
+  password: "123456",
 });
-// const checkKey = ref();
-const verificationImg = ref("");
+
 const store = useStore();
 
 async function onFinish(values: any) {
   try {
     let data = {
       ...formState,
-      password: btoa(values.password),
     };
     await store.dispatch("user/login", data);
     try {
@@ -98,19 +74,6 @@ async function onFinish(values: any) {
     console.error(error);
   }
 }
-
-async function submit() {}
-onMounted(() => {
-  // console.log(checkKey);
-  getVerficationCode();
-});
-//获取图片验证码
-const getVerficationCode = () => {
-  formState.checkKey = Date.now();
-  verification(formState.checkKey, { loading: false }).then((res) => {
-    verificationImg.value = res.result;
-  });
-};
 </script>
 <style lang="scss" scoped>
 .container {

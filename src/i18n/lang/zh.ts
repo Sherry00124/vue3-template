@@ -1,4 +1,8 @@
 const zh = {
+  api: {
+    success: "成功",
+    error: "出错了！",
+  },
   layout: {
     title: `TradeBridge`,
     logout: `退出`,

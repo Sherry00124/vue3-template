@@ -3,7 +3,7 @@ import { AxiosRequestConfig } from "axios";
 
 export function login(data: any, config?: Object) {
   return request({
-    url: "query/login/login",
+    url: "/login",
     method: "post",
     data: data,
     ...config,
@@ -12,7 +12,7 @@ export function login(data: any, config?: Object) {
 
 export function getMerchantInfo(config?: Object) {
   return request({
-    url: "query/merchant/getMerchantInfo",
+    url: "/getUserInfo",
     method: "get",
     ...config,
   });
