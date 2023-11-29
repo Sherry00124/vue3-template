@@ -21,6 +21,8 @@ Mock.mock("/login", "post", (params) => {
 Mock.mock("/getUserInfo", "get", (params) => {
   return {
     code: 200,
-    result: {},
+    result: {
+      mobile: "1234567890",
+    },
   };
 });
