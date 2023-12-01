@@ -26,3 +26,12 @@ Mock.mock("/getUserInfo", "get", (params) => {
     },
   };
 });
+
+Mock.mock("/getAccountInfo", "get", (params) => {
+  return {
+    code: 200,
+    result: {
+      record: [],
+    },
+  };
+});

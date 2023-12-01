@@ -33,7 +33,7 @@ const store = useStore();
 
 const username = computed(() => {
   const userInfo = store.state.user.userInfo;
-  return userInfo ? userInfo.institution : "";
+  return userInfo ? userInfo.mobile : "";
 });
 
 const showSidebar = computed(() => {

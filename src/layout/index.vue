@@ -13,7 +13,12 @@
           <Header />
         </a-layout-header>
         <a-layout-content
-          :style="{ margin: '16px 16px', padding: '16px', background: '#fff', minHeight: '38rem' }"
+          :style="{
+            margin: '16px 16px',
+            padding: '16px',
+            background: '#fff',
+            minHeight: 'calc(100vh - 100px)',
+          }"
         >
           <router-view :key="key"></router-view>
         </a-layout-content>

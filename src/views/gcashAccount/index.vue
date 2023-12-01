@@ -5,34 +5,18 @@
     :page="pageAccount"
     @table-action="selectQuery"
     @refresh="accountRefresh"
-    @change-page="accountPageChange"
   />
-  <a-modal v-model:open="open" :title="$t('gcashAccount.modalTitle')" @ok="handleOk" width="600">
-    <div class="flex-column modal-body">
-      <div style="text-align: right; margin-bottom: 2rem">
-        <a-button type="primary" @click="exportData">{{ $t("gcashAccount.export") }}</a-button>
-      </div>
-      <TableComponents
-        :data-list="transactionRecordsList"
-        :columns="transactionRecordsColumns"
-        :page="pageTransaction"
-        @change-page="transactionPageChange"
-        @refresh="transactionRefresh"
-      />
-    </div>
-  </a-modal>
 </template>
 <script lang="ts" setup>
 import * as XLSX from "xlsx";
 import type { TableColumnsType } from "ant-design-vue";
 import { onMounted, reactive, ref } from "vue";
-import { gcashAccountList, transferList, exportTransferList } from "@/api/query.api";
-import { getUserInfo } from "@/utils/storage/auth";
+import { gcashAccountList } from "@/api/query.api";
 import TableComponents from "@/components/Table/index.vue";
 import { useI18n } from "vue-i18n";
-const open = ref<boolean>(false);
+
 const accountList = ref([]);
-const transactionRecordsList = ref([]);
+
 onMounted(() => {
   getList();
 });
@@ -48,13 +32,6 @@ const pageAccount = reactive<PageSet>({
   total: 0,
 });
 
-const pageTransaction = reactive<PageSet>({
-  pageNo: 1,
-  pageSize: 5,
-  total: 0,
-});
-
-const inputData = ref({ phone: "" });
 /**
  * 获取Gcash列表
  */
@@ -74,62 +51,10 @@ async function accountRefresh() {
 }
 
 /**
- * 确认查询某个Gcash对应流水
- */
-const selectQuery = (record: any) => {
-  inputData.value.phone = record.msisdn;
-  getTransactionList();
-};
-
-/**
- * 查询Gcash流水
- */
-async function getTransactionList() {
-  let data = {
-    ...inputData.value,
-    ...pageTransaction,
-  };
-  await transferList(data, { loading: true }).then((res) => {
-    open.value = true;
-    transactionRecordsList.value = res.result.records;
-    pageTransaction.total = res.result.total;
-  });
-}
-/**
- * 流水分页
- */
-const transactionPageChange = (e: any) => {
-  pageTransaction.pageSize = e.pageSize;
-  pageTransaction.pageNo = e.current;
-  getTransactionList();
-};
-/**
- * 流水刷新
- */
-async function transactionRefresh(e: any) {
-  pageTransaction.pageNo = 1;
-  pageTransaction.pageSize = 5;
-  getTransactionList();
-}
-/**
- * Gcash列表分页
- */
-const accountPageChange = (e: any) => {
-  pageAccount.pageSize = e.pageSize;
-  pageAccount.pageNo = e.current;
-  getList();
-};
-
-const handleOk = (e: MouseEvent) => {
-  open.value = false;
-};
-/**
  * 导出
  */
 async function exportData() {
-  await exportTransferList(inputData.value, { loading: true }).then((res) => {
-    ExportXlsx(res.result);
-  });
+  ExportXlsx(accountList.value);
 }
 
 const ExportXlsx = (list: any) => {
@@ -139,6 +64,7 @@ const ExportXlsx = (list: any) => {
   XLSX.writeFile(wb, "data.xlsx");
 };
 
+const selectQuery = () => {};
 const columns: TableColumnsType = [
   {
     title: useI18n().t("gcashAccount.id"),
@@ -156,14 +82,6 @@ const columns: TableColumnsType = [
     fixed: "right",
     width: 100,
   },
-];
-
-const transactionRecordsColumns: TableColumnsType = [
-  { title: useI18n().t("gcashAccount.gcashOrderNo"), dataIndex: "gcashOrderNo", key: "4" },
-  { title: useI18n().t("gcashAccount.amount"), dataIndex: "amount", key: "age", fixed: "left" },
-  { title: useI18n().t("gcashAccount.recPhone"), dataIndex: "recPhone", key: "7" },
-  { title: useI18n().t("gcashAccount.payPhone"), dataIndex: "payPhone", key: "5" },
-  { title: useI18n().t("gcashAccount.payTime"), dataIndex: "payTime", key: "6" },
 ];
 </script>
 <style lang="scss" scoped>
