@@ -13,7 +13,7 @@ const zh = {
     title: `首页`,
     content: `欢迎来到Sherry的模板首页`,
   },
-  gcashAccount: {
+  table: {
     title: "表格",
     query: `查询`,
     queryConfirm: `你确定要...?`,

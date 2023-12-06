@@ -1,6 +1,6 @@
 # vue3-template
 
-一个使用 Vue3+TS+Antd 搭建的网站模板
+一个使用 Vue3+TS+Antd 搭建的网站模板,不定期更新优化
 
 ## 现有功能
 
@@ -12,10 +12,10 @@
 6. 封装全局 Loading
 7. 根据接口自定义是否显示 loading
 8. 路由权限
+9. mock 数据
 
 ### todo
 
-- mock 数据
 - header 展示路由信息
-- 字体
-- icon
+- 自定义字体
+- 自定义 icon
