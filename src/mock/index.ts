@@ -13,7 +13,7 @@ Mock.mock("/login", "post", (params) => {
   } else {
     return {
       code: 200,
-      message: "error",
+      message: "User name or password error.",
     };
   }
 });
@@ -30,8 +30,45 @@ Mock.mock("/getUserInfo", "get", (params) => {
 Mock.mock("/getAccountInfo", "get", (params) => {
   return {
     code: 200,
+    total: 100,
     result: {
-      record: [],
+      records: [
+        {
+          id: 0,
+          name: "张三",
+          mobile: "111111",
+        },
+        {
+          id: 1,
+          name: "张三",
+          mobile: "111111",
+        },
+        {
+          id: 2,
+          name: "张三",
+          mobile: "111111",
+        },
+        {
+          id: 3,
+          name: "张三",
+          mobile: "111111",
+        },
+        {
+          id: 4,
+          name: "张三",
+          mobile: "111111",
+        },
+        {
+          id: 5,
+          name: "张三",
+          mobile: "111111",
+        },
+        {
+          id: 6,
+          name: "张三",
+          mobile: "111111",
+        },
+      ],
     },
   };
 });

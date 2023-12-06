@@ -3,7 +3,7 @@
     <a-layout>
       <a-layout-sider :trigger="null" v-model:collapsed="collapsed" collapsible>
         <div class="logo flex-center-xy">
-          <img alt="" width="40" src="@/assets/logo.png" class="logo-img" />
+          <img alt="" width="40" src="@/assets/logo.webp" class="logo-img" />
           <span v-show="!collapsed">{{ $t("layout.title") }}</span>
         </div>
         <NavBar />

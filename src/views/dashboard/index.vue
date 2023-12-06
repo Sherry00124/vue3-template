@@ -1,5 +1,5 @@
 <template>
-  <div class="home">Welcome to Sherry's system dashboard</div>
+  <div class="home">{{$t("dashboard.content")}}</div>
 </template>
 
 <style lang="scss" scoped>

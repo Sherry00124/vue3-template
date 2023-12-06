@@ -50,68 +50,25 @@ const routes: Array<RouteRecordRaw> = [
     ],
   },
   {
-    path: "/gcash",
+    path: "/table",
     component: Layout,
     meta: { hidden: false },
-    redirect: "/gcash/index",
+    redirect: "/table/index",
     children: [
       {
-        path: "/gcash/index",
-        name: "gcash",
+        path: "/table/index",
+        name: "table",
         meta: {
           hidden: false,
-          title: i18n.global.t("gcashAccount.title"),
+          title: i18n.global.t("table.title"),
           icon: OrderedListOutlined,
           breadcrumb: true,
         },
-        component: () => import(/* webpackChunkName: "about" */ "../views/gcashAccount/index.vue"),
-      },
-    ],
-  },
-  {
-    path: "/transaction",
-    component: Layout,
-    meta: { hidden: false },
-    redirect: "/transaction/index",
-    children: [
-      {
-        path: "/transaction/index",
-        name: "transaction",
-        meta: {
-          hidden: false,
-          title: i18n.global.t("transaction.title"),
-          icon: AlignLeftOutlined,
-          breadcrumb: true,
-        },
-        component: () => import(/* webpackChunkName: "about" */ "../views/transaction/index.vue"),
-      },
-    ],
-  },
-  {
-    path: "/deposit",
-    component: Layout,
-    meta: { hidden: false },
-    redirect: "/deposit/index",
-    children: [
-      {
-        path: "/deposit/index",
-        name: "deposit",
-        meta: {
-          hidden: false,
-          title: i18n.global.t("deposit.title"),
-          icon: VerticalAlignBottomOutlined,
-          breadcrumb: true,
-        },
-        component: () => import(/* webpackChunkName: "about" */ "../views/deposit/index.vue"),
+        component: () => import(/* webpackChunkName: "about" */ "../views/table/index.vue"),
       },
     ],
   },
 ];
-
-// const router = createRouter({
-//   history: createWebHistory(process.env.BASE_URL),
-//   routes,
-// });
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),

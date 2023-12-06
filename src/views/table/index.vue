@@ -11,7 +11,7 @@
 import * as XLSX from "xlsx";
 import type { TableColumnsType } from "ant-design-vue";
 import { onMounted, reactive, ref } from "vue";
-import { gcashAccountList } from "@/api/query.api";
+import { checkAccountList } from "@/api/query.api";
 import TableComponents from "@/components/Table/index.vue";
 import { useI18n } from "vue-i18n";
 
@@ -33,16 +33,17 @@ const pageAccount = reactive<PageSet>({
 });
 
 /**
- * 获取Gcash列表
+ * 获取列表
  */
 async function getList() {
-  await gcashAccountList(pageAccount, { loading: true }).then((res) => {
+  await checkAccountList(pageAccount, { loading: true }).then((res) => {
+    console.log(res);
     accountList.value = res.result.records;
     pageAccount.total = res.result.total;
   });
 }
 /**
- * 刷新Gcash列表
+ * 刷新列表
  */
 async function accountRefresh() {
   pageAccount.pageNo = 1;
@@ -67,18 +68,18 @@ const ExportXlsx = (list: any) => {
 const selectQuery = () => {};
 const columns: TableColumnsType = [
   {
-    title: useI18n().t("gcashAccount.id"),
+    title: useI18n().t("table.id"),
     width: 150,
     dataIndex: "id",
-    key: "name",
+    key: "text",
     fixed: "left",
   },
-  { title: useI18n().t("gcashAccount.msisdn"), dataIndex: "msisdn", key: "1", width: 150 },
-  { title: useI18n().t("gcashAccount.udt"), dataIndex: "udt", key: "6", width: 200 },
+  { title: useI18n().t("table.name"), dataIndex: "name", key: "1", width: 150 },
+  { title: useI18n().t("table.mobile"), dataIndex: "mobile", key: "tags", width: 200 },
   {
-    title: useI18n().t("gcashAccount.action"),
+    title: useI18n().t("table.action"),
     key: "operation",
-    dataIndex: useI18n().t("gcashAccount.query"),
+    dataIndex: useI18n().t("table.query"),
     fixed: "right",
     width: 100,
   },
